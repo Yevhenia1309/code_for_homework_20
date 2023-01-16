@@ -1,0 +1,103 @@
+1) Создайте декоратор, который зарегистрирует декорируемый класс в
+списке классов.
+
+all_lst_cls = []
+
+def lst_cls(cls):
+    all_lst_cls.append(cls)
+    return cls
+
+@lst_cls
+class Box:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def volume(self):
+        return self.x * self.y * self.z
+
+    def __str__(self):
+        return f'{self.x} * {self.y} * {self.z}'
+
+@lst_cls
+class Rectangle():
+
+    def __init__(self, length: int | float, width: int | float):
+        self.length = length
+        self.width = width
+
+    def area(self):
+        return self.length * self.width
+
+    def __str__(self):
+        return f'{self.length} * {self.width} '
+
+
+Box_1 = Box(2, 3, 4)
+Box_2 = Box(3, 4, 5)
+
+print(Box_1.volume())
+print(Box_2.volume())
+
+Rectangle_1 = Rectangle(2, 3)
+Rectangle_2 = Rectangle(4, 6)
+Rectangle_3 = Rectangle(4, 8)
+
+print(Rectangle_1.area())
+print(Rectangle_2.area())
+print(Rectangle_3.area())
+
+print(all_lst_cls)
+
+2) Создайте декоратор класса с параметром. Параметром должна быть
+строка, которая должна дописываться (слева) к результату работы метода
+__str__.
+
+def New_decorator(func):
+    def inner_function(*args):
+        return f'The sides of this rectangle are ' + func(*args)
+    return inner_function
+
+class Rectangle():
+
+    def __init__(self, length: int | float, width: int | float):
+        self.length = length
+        self.width = width
+
+    def area(self):
+        return self.length * self.width
+
+    @New_decorator
+    def __str__(self):
+        return f'{self.length} * {self.width} '
+
+Rectangle_1 = Rectangle(5, 7)
+print(Rectangle_1)
+
+3) Для класса Box напишите статический метод, который будет подсчитывать
+суммарный объем двух ящиков, которые будут его параметрами.
+
+class Box:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def volume(self):
+        return self.x * self.y * self.z
+
+    @staticmethod
+    def amount_volume(box_1, box_2):
+        return box_1.volume() + box_2.volume()
+
+    def __str__(self):
+        return f'{self.x} * {self.y} * {self.z}'
+
+Box_1 = Box(2, 3, 4)
+Box_2 = Box(3, 4, 5)
+
+print(Box_1.volume())
+print(Box_2.volume())
+
+print(Box.amount_volume(Box_1, Box_2))
